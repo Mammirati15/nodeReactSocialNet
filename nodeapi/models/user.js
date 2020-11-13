@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const uuidv1 = require('uuid/v1')
+const uuid = require('uuid')
 const crypto = require('crypto')
 
 const userSchema = new mongoose.Schema({
@@ -31,7 +31,7 @@ userSchema.virtual('password')
   //creating a temporary variable
   this._password = password
   //create timestamp
-  this.salt = uuidv1()
+  this.salt = uuid.v1()
   // encrypt password
   this.hashed_password = this.encryptPassword(password)
 })
@@ -56,4 +56,4 @@ userSchema.methods = {
   
 
 
-modules.exports = mongoose.model("User", userSchema)
+module.exports = mongoose.model("User", userSchema)
