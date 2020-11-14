@@ -10,7 +10,7 @@ exports.signUp = async (req, res) => {
   try{
     await user.save()
     res.status(200).json({
-      user
+      message: "Sign Up Success!  Please Login."
     })
   } catch(e){
     console.log(e)
