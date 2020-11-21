@@ -1,5 +1,6 @@
 const _ = require("lodash")
 const User = require('../models/user')
+const user = require("../models/user")
 
 exports.userById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
@@ -53,5 +54,18 @@ exports.updateUser = (req, res, next) => {
     user.hashed_password = undefined
     user.salt = undefined
     res.json({user})
+  })
+}
+
+exports.deleteUser = (req, res) => {
+  let user = req.profile
+  user.remove((err, user) => {
+    if(err) {
+      return res.status(400).json({
+        error: err
+      })
+    }
+    
+    res.json({message: "User has been deleted successfully"})
   })
 }
