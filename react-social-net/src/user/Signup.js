@@ -10,6 +10,10 @@ class Signup extends Component {
       error: ""
     }
   }
+
+  handleChange = (name) => (event) => {
+    this.setState({[name]: event.target.value})
+  }
   
   render(){
     return (
@@ -18,15 +22,15 @@ class Signup extends Component {
         <form>
           <div className="form-group">
             <label className="text-muted">Name</label>
-            <input type="text" className="form-control" />
+            <input onChange={this.handleChange("name")} type="text" className="form-control" />
           </div>
           <div className="form-group">
             <label className="text-muted">Email</label>
-            <input type="email" className="form-control" />
+            <input onChange={this.handleChange("email")} type="email" className="form-control" />
           </div>
           <div className="form-group">
             <label className="text-muted">Password</label>
-            <input type="password" className="form-control" />
+            <input onChange={this.handleChange("password")} type="password" className="form-control" />
           </div>
           <button className="mt-2 btn btn-raised btn-primary">Signup</button>
         </form>
