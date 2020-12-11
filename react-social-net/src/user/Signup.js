@@ -7,7 +7,8 @@ class Signup extends Component {
       name: "", 
       email: "",
       password: "",
-      error: ""
+      error: "",
+      open: false
     }
   }
 
@@ -32,7 +33,8 @@ class Signup extends Component {
           error: "",
           name: "",
           email: "",
-          password: ""
+          password: "",
+          open: true
         })
     })
   }
@@ -55,13 +57,17 @@ class Signup extends Component {
     
   
   render(){
-    const {name, email, password, error} = this.state
+    const {name, email, password, error, open} = this.state
     return (
       <div className="container">
         <h2 className="mt-5 mb-5">Signup For The Social Network</h2>
         
         <div className="alert alert-primary" style={{ display: error ? "" : "none" }}>
           {error}
+        </div>
+
+        <div className="alert alert-info" style={{ display: open ? "" : "none" }}>
+          New account has been successfully created! Please sign in.
         </div>
         
         <form>
