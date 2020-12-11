@@ -54,7 +54,23 @@ class Signup extends Component {
   .catch(err => console.log(err))
   }
     
-    
+  signUpForm = (name, email, password) => (
+    <form>
+    <div className="form-group">
+      <label className="text-muted">Name</label>
+      <input onChange={this.handleChange("name")} type="text" className="form-control" value={name} />
+    </div>
+    <div className="form-group">
+      <label className="text-muted">Email</label>
+      <input onChange={this.handleChange("email")} type="email" className="form-control" value={email} />
+    </div>
+    <div className="form-group">
+      <label className="text-muted">Password</label>
+      <input onChange={this.handleChange("password")} type="password" className="form-control" value={password} />
+    </div>
+    <button onClick={this.clickSubmit} className="mt-2 btn btn-raised btn-primary">Signup</button>
+  </form>
+  )  
   
   render(){
     const {name, email, password, error, open} = this.state
@@ -62,7 +78,7 @@ class Signup extends Component {
       <div className="container">
         <h2 className="mt-5 mb-5">Signup For The Social Network</h2>
         
-        <div className="alert alert-primary" style={{ display: error ? "" : "none" }}>
+        <div className="alert alert-danger" style={{ display: error ? "" : "none" }}>
           {error}
         </div>
 
@@ -70,21 +86,7 @@ class Signup extends Component {
           New account has been successfully created! Please sign in.
         </div>
         
-        <form>
-          <div className="form-group">
-            <label className="text-muted">Name</label>
-            <input onChange={this.handleChange("name")} type="text" className="form-control" value={name} />
-          </div>
-          <div className="form-group">
-            <label className="text-muted">Email</label>
-            <input onChange={this.handleChange("email")} type="email" className="form-control" value={email} />
-          </div>
-          <div className="form-group">
-            <label className="text-muted">Password</label>
-            <input onChange={this.handleChange("password")} type="password" className="form-control" value={password} />
-          </div>
-          <button onClick={this.clickSubmit} className="mt-2 btn btn-raised btn-primary">Signup</button>
-        </form>
+      {this.signUpForm(name, email, password)}
       </div>
     )
   }
