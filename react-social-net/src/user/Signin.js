@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Redirect} from 'react-router-dom'
 
 class Signin extends Component {
   constructor(){
@@ -7,7 +8,7 @@ class Signin extends Component {
       email: "",
       password: "",
       error: "",
-      redirectToRefere: false      
+      redirectToReferer: false      
     }
   }
 
@@ -16,6 +17,14 @@ class Signin extends Component {
     this.setState({[name]: event.target.value})
   }
 
+  authenticate (jwt, next) {
+    if(typeof window !== "undefined") {
+      localStorage.setItem("jwt", JSON.stringify(jwt))
+      next()
+    }
+  }
+  
+
   clickSubmit = event => {
     event.preventDefault()
     const {email, password} = this.state
@@ -23,7 +32,7 @@ class Signin extends Component {
       email: email,
       password: password
     }
-    //console.log(user)
+    console.log(user)
     this.signin(user)
     .then(data => {
       if(data.error) {
@@ -31,7 +40,10 @@ class Signin extends Component {
       }
       else {
         //authenticate the user
-        //redirect
+        this.authenticate(data, () => {
+          this.setState({redirectToReferer: true})
+        })
+      
       }  
     })
   }
@@ -70,7 +82,12 @@ class Signin extends Component {
   )  
   
   render(){
-    const { email, password, error} = this.state
+    const { email, password, error, redirectToReferer} = this.state
+
+    if (redirectToReferer){
+      return <Redirect to="/" />
+    }
+
     return (
       <div className="container">
         <h2 className="mt-5 mb-5">SignIn To The Social Network</h2>
