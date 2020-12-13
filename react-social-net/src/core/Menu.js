@@ -1,21 +1,26 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 
-const Menu = () => (
+const isActive = (history, path) => {
+  if(history.location.pathname === path) return {color: "#009874"}
+    else return {color: "#000000"}
+}
+
+const Menu = ({history}) => (
   <div>
     <ul className="nav nav-tabs">
       <li className="nav-item">
-        <Link className="nav-link" to="/">Home</Link>
+        <Link className="nav-link" style={isActive(history, "/")} to="/">Home</Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/signup">Sign In</Link>
+        <Link className="nav-link" style={isActive(history, "/signin")} to="/signin">Sign In</Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/signin">Sign Up</Link>
+        <Link className="nav-link"  style={isActive(history, "/signup")} to="/signup">Sign Up</Link>
       </li>
     </ul>
   </div>  
 )
 
-export default Menu;
+export default withRouter(Menu);
 
