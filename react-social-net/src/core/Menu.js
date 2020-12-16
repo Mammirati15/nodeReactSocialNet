@@ -20,7 +20,7 @@ export const signout = (next) =>  {
 }
 
 export const isAuthenticated = () => {
-  if(typeof window !== "undefined") {
+  if(typeof window == "undefined") {
     return false
   }
 
@@ -38,16 +38,22 @@ const Menu = ({history}) => (
         <Link className="nav-link" style={isActive(history, "/")} to="/">Home</Link>
       </li>
 
-      <li className="nav-item">
-        <Link className="nav-link" style={isActive(history, "/signin")} to="/signin">Sign In</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link"  style={isActive(history, "/signup")} to="/signup">Sign Up</Link>
-      </li>
+      {!isAuthenticated() && (
+      <>
+        <li className="nav-item">
+          <Link className="nav-link" style={isActive(history, "/signin")} to="/signin">Sign In</Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link"  style={isActive(history, "/signup")} to="/signup">Sign Up</Link>
+        </li>
+      </>
+      )}
       
+     {isAuthenticated() && (
       <li className="nav-item">
         <a className="nav-link"  style={isActive(history, "/signout"), {cursor: "pointer"}} onClick={() => signout(() => history.push("/"))} >Sign Out</a>
       </li>
+     )}
     </ul>
   </div>  
 )
