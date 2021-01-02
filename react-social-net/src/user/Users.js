@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {list} from "./apiUser"
+import DefaultProfile from '../images/avatar.jpg'
 
 class Users extends Component {
   constructor(){
@@ -23,7 +24,7 @@ class Users extends Component {
     <div className="row">
     {users.map((user, i) => (
     <div className="card col-md-4"  key={i}>
-      <img className="card-img-top" src="" alt="Card cap" />
+      <img className="card-img-top" src={DefaultProfile} alt={user.name} style={{width: '100%', height: '15vw', objectFit: 'cover'}} />
       <div className="card-body">
         <h5 className="card-title">{user.name}</h5>
         <p className="card-text">
