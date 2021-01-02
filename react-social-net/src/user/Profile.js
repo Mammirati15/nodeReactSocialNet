@@ -16,7 +16,7 @@ class Profile extends Component {
 
   
 
-  init = (userId) => {
+  init = userId => {
    const token = isAuthenticated().token 
    read(userId, token)
     .then(data => {
@@ -30,6 +30,11 @@ class Profile extends Component {
   
   componentDidMount() {
     const userId = this.props.match.params.userId
+    this.init(userId)
+  }
+
+  componentWillReceiveProps(props) {
+    const userId = props.match.params.userId
     this.init(userId)
   }
 
