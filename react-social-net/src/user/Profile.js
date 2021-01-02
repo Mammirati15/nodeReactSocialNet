@@ -3,6 +3,7 @@ import {Redirect, Link} from 'react-router-dom'
 import {isAuthenticated} from '../auth/index'
 import {read} from "./apiUser"
 import DefaultProfile from '../images/avatar.jpg'
+import DeleteUser from './DeleteUser'
 
 class Profile extends Component {
   constructor(){
@@ -56,9 +57,7 @@ class Profile extends Component {
                 <Link className="btn btn-raised btn-success mr-5" to={`/user/edit/${user._id}`}>
                   Edit Profile
                 </Link>
-                <button className="btn btn-raised btn-danger">
-                  Delete Profile
-                </button>
+                <DeleteUser />
               </div>
             )}
           </div>
