@@ -1,9 +1,45 @@
 import React, { Component } from 'react'
+import {isAuthenticated, signout} from '../auth/index'
+import { Redirect } from "react-router-dom"
+import {remove} from "./apiUser"
+
 
 class DeleteUser extends Component {
+
+  state = {
+    redirect: false
+  }
+
+  deleteAccount = () => {
+    const token = isAuthenticated().token
+    const userId = this.props.userId
+    remove(userId, token)
+    .then(data => {
+      if(data.error){
+        console.log(data.error)
+      } else {
+        //signout user
+        signout(() => console.log('user is deleted'))
+        //redirect
+        this.setState({redirect: true})
+
+      }
+    })
+  }
+
+  deleteConfirmed = () => {
+    let answer = window.confirm("Are you sure you want to delete your account?")
+    if(answer) {
+      this.deleteAccount()
+    } 
+  }
+
   render() {
+    if(this.state.redirect){
+      return <Redirect to="/" />
+    }
     return (      
-      <button className="btn btn-raised btn-danger">
+      <button onClick={this.deleteConfirmed}className="btn btn-raised btn-danger">
         Delete Profile
       </button>      
     )
