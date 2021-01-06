@@ -12,6 +12,7 @@ class EditProfile extends Component {
       id: "",
       name: "",
       email: "",
+      about: "",
       password: "",
       redirectToProfile: false,
       error: "",
@@ -27,7 +28,7 @@ class EditProfile extends Component {
        if(data.error){
          this.setState({redirectToProfile: true})
        } else {
-         this.setState({id: data._id, name: data.name, email: data.email, error: ""})
+         this.setState({id: data._id, name: data.name, email: data.email, error: "", about: data.about})
        }
      })
    }
@@ -90,7 +91,7 @@ class EditProfile extends Component {
     } 
   }
 
-  signUpForm = (name, email, password) => (
+  signUpForm = (name, email, about, password) => (
     <form className="ml-5">
 
     <div className="form-group">
@@ -108,6 +109,10 @@ class EditProfile extends Component {
       <input onChange={this.handleChange("email")} type="email" className="form-control" value={email} />
     </div>
     <div className="form-group">
+      <label className="text-muted">About</label>
+      <textarea onChange={this.handleChange("about")} type="text" className="form-control" value={about} />
+    </div>
+    <div className="form-group">
       <label className="text-muted">Password</label>
       <input onChange={this.handleChange("password")} type="password" className="form-control" value={password} />
     </div>
@@ -116,13 +121,13 @@ class EditProfile extends Component {
   )
 
   render() {
-    const {id, name, email, password, redirectToProfile, error, loading} = this.state
+    const {id, name, email, password, redirectToProfile, error, loading, about} = this.state
 
     if(redirectToProfile) {
       return <Redirect to={`/user/${id}`} />
     }
 
-    const photoUrl = id ? `${process.env.REACT_APP_API_URL}/user/photo/${id}` : DefaultProfile
+    const photoUrl = id ? `${process.env.REACT_APP_API_URL}/user/photo/${id}?${new Date().getTime()}` : DefaultProfile
 
     return (
       <div className="container">
@@ -134,9 +139,14 @@ class EditProfile extends Component {
 
         {loading ? <div className="jumbotron text-center"><h2>Loading...</h2></div> : ""}
 
-        <img src={photoUrl} alt={name} />
+        <img style={{height: "200px", width: "auto"}} 
+          className="ml-5 img-thumbnail" 
+          src={photoUrl} 
+          onError={i => (i.target.src = `${DefaultProfile}`)} 
+          alt={name} 
+        />
 
-        {this.signUpForm(name, email, password)}
+        {this.signUpForm(name, email, about, password)}
 
       </div>
     )
