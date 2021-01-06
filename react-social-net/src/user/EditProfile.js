@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {isAuthenticated} from '../auth/index'
 import {read, update} from "./apiUser"
 import {Redirect} from 'react-router-dom'
+import DefaultProfile from '../images/avatar.jpg'
+
 
 class EditProfile extends Component {
   constructor(){
@@ -25,7 +27,7 @@ class EditProfile extends Component {
        if(data.error){
          this.setState({redirectToProfile: true})
        } else {
-         this.setState({id: data._id, name: data.name, email: data.email, error: ''})
+         this.setState({id: data._id, name: data.name, email: data.email, error: ""})
        }
      })
    }
@@ -37,7 +39,12 @@ class EditProfile extends Component {
   }
 
   isValid = () => {
-    const {name, email, password} = this.state
+    const {name, email, password, fileSize} = this.state
+    if(fileSize > 100000) {
+      this.setState({error: "File Size must be smaller than 100KB"})
+      return false
+    }
+    
     if(name.length === 0) {
       this.setState({error: "Name is required"})
       return false
@@ -54,9 +61,12 @@ class EditProfile extends Component {
   }
 
   handleChange = (name) => (event) => {
+    this.setState({error: ""})
     const value = name === 'photo' ? event.target.files[0] : event.target.value
+
+    const fileSize = name === 'photo' ? event.target.files[0].size : 0
     this.userData.set(name, value)
-    this.setState({[name]: value})
+    this.setState({[name]: value, fileSize})
   }
 
   clickSubmit = event => {
@@ -112,7 +122,8 @@ class EditProfile extends Component {
       return <Redirect to={`/user/${id}`} />
     }
 
-    
+    const photoUrl = id ? `${process.env.REACT_APP_API_URL}/user/photo/${id}` : DefaultProfile
+
     return (
       <div className="container">
         <h2 className="mt-5 mb-5 ml-5">Edit Profile</h2>
@@ -122,6 +133,8 @@ class EditProfile extends Component {
         </div>
 
         {loading ? <div className="jumbotron text-center"><h2>Loading...</h2></div> : ""}
+
+        <img src={photoUrl} alt={name} />
 
         {this.signUpForm(name, email, password)}
 
