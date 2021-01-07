@@ -26,7 +26,7 @@ class Users extends Component {
     {users.map((user, i) => (
     <div className="card col-md-4"  key={i}>
       <img style={{height: "200px", width: "auto"}} 
-        className="ml-5 img-thumbnail" 
+        className="img-thumbnail" 
         src={`${process.env.REACT_APP_API_URL}/user/photo/${user._id}?${new Date().getTime()}`} 
         onError={i => (i.target.src = `${DefaultProfile}`)} 
         alt={user.name} 
