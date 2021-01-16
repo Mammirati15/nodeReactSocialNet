@@ -57,7 +57,7 @@ class Posts extends Component {
                   </Link>
                   on {new Date(post.created).toDateString()}
                 </p>
-                <Link to={`post/${post._id}`} className="btn btn-raised btn-primary btn-sm">
+                <Link to={`/post/${post._id}`} className="btn btn-raised btn-primary btn-sm">
                   Read More of this Post
                 </Link>
               </div>

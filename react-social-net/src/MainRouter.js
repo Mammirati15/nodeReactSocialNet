@@ -9,8 +9,9 @@ import Users from './user/Users'
 import EditProfile from './user/EditProfile'
 import FindPeople from './user/FindPeople'
 import NewPost from './post/NewPost'
-import PrivateRoute from './auth/PrivateRoute'
 import SinglePost from './post/SinglePost'
+import PrivateRoute from './auth/PrivateRoute'
+
 
 
 const MainRouter = () => (
