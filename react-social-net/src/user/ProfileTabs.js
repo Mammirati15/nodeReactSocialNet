@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 
 class ProfileTabs extends Component {
   render() {
-    const {following, followers} = this.props
+    const {following, followers, posts} = this.props
     return (
       <div>
         <div className="row">
@@ -65,6 +65,7 @@ class ProfileTabs extends Component {
           <div className="col-md-4">
           <h3 className="text-primary">Posts</h3>
             <hr />
+            {JSON.stringify(posts)}
           </div>
         </div>
       </div>
