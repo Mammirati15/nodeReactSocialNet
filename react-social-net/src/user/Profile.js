@@ -90,17 +90,17 @@ class Profile extends Component {
       <div className="container">
         <h2 className="mt-5 mb-5">Profile</h2>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
             
           <img style={{height: "200px", width: "auto"}} 
-            className="ml-5 img-thumbnail" 
+            className="img-thumbnail" 
             src={photoUrl} 
             onError={i => (i.target.src = `${DefaultProfile}`)} 
             alt={user.name} 
           />
               
           </div>
-          <div className="col-md-6">
+          <div className="col-md-8">
               <div className="lead mt-2">
                 <p>Hello {user.name}</p>
                 <p>Email: {user.email}</p>              
@@ -108,6 +108,9 @@ class Profile extends Component {
               </div>
             {isAuthenticated().user && isAuthenticated().user._id === user._id ? (
               <div className="d-inline-block">
+                <Link className="btn btn-raised btn-info mr-5" to={`/post/create`}>
+                  Create Post
+                </Link>
                 <Link className="btn btn-raised btn-success mr-5" to={`/user/edit/${user._id}`}>
                   Edit Profile
                 </Link>
