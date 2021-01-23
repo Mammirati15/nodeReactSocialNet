@@ -42,7 +42,7 @@ class Posts extends Component {
                   src={`${process.env.REACT_APP_API_URL}/post/photo/${post._id}`}  
                   alt={post.title} onError={i => i.target.src = `${DefaultPost}`} 
                   className="img-thumbnail mb-3" 
-                  style={{height: '200px', width: 'auto'
+                  style={{height: '200px', width: '100%'
                 }}
                 />
                 <h5 className="card-title">{post.title}</h5>
