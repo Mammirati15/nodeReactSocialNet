@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import {singlePost} from './apiPost'
+import {singlePost, update} from './apiPost'
+import {isAuthenticated} from '../auth'
+import {Redirect} from 'react-router-dom'
 
 class EditPost extends Component {
   constructor(){
@@ -64,10 +66,10 @@ class EditPost extends Component {
       
     
       //console.log(user)
-      const userId = isAuthenticated().user._id
+      const postId = this.state.id
       const token = isAuthenticated().token 
 
-      create(userId, token, this.postData)
+      update(postId, token, this.postData)
       .then(data => {
         if(data.error) this.setState({error: data.error})
           else {
@@ -101,7 +103,12 @@ class EditPost extends Component {
   )
 
   render() {
-    const {title, body} = this.state
+    const {title, body, redirectToProfile} = this.state
+
+    if(redirectToProfile) {
+      return <Redirect to={`/user/${isAuthenticated().user._id}`} />
+    }
+
     return (
       <div className="container">
         <h2 className="mt-5 mb-5"> {title}</h2>
