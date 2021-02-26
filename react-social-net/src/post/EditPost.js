@@ -11,6 +11,7 @@ class EditPost extends Component {
       id: '',
       title: '',
       body: '',
+      photo: '',
       redirectToProfile: false,
       error: '',
       fileSize: 0,
@@ -104,7 +105,7 @@ class EditPost extends Component {
   )
 
   render() {
-    const {id, title, body, redirectToProfile} = this.state
+    const {id, title, body, redirectToProfile, error, loading} = this.state
 
     if(redirectToProfile) {
       return <Redirect to={`/user/${isAuthenticated().user._id}`} />
@@ -113,6 +114,12 @@ class EditPost extends Component {
     return (
       <div className="container">
         <h2 className="mt-5 mb-5"> {title}</h2>
+
+        <div className="alert alert-danger" style={{ display: error ? "" : "none" }}>
+          {error}
+        </div>
+
+        {loading ? ( <div className="jumbotron text-center"><h2>Loading...</h2></div> ) : ( "" )}
 
         <img style={{height: "200px", width: "auto"}}
           className="ml-5 img-thumbnail"
