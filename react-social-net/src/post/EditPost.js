@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {singlePost, update} from './apiPost'
 import {isAuthenticated} from '../auth'
 import {Redirect} from 'react-router-dom'
+import DefaultPost from '../images/hanauma.jpg'
 
 class EditPost extends Component {
   constructor(){
@@ -18,7 +19,7 @@ class EditPost extends Component {
   }
 
   init = postId => {
-    
+
     singlePost(postId)
      .then(data => {
        if(data.error){
@@ -28,7 +29,7 @@ class EditPost extends Component {
        }
      })
    }
-   
+
   componentDidMount() {
     this.postData = new FormData()
     const postId = this.props.match.params.postId
@@ -41,11 +42,11 @@ class EditPost extends Component {
       this.setState({error: "File Size must be smaller than 100KB", loading: false})
       return false
     }
-    
+
     if(title.length === 0 || body.length === 0) {
       this.setState({error: "All Fields Are Required", loading: false})
       return false
-    }   
+    }
     return true
   }
 
@@ -63,11 +64,11 @@ class EditPost extends Component {
     this.setState({loading: true})
 
     if(this.isValid()) {
-      
-    
+
+
       //console.log(user)
       const postId = this.state.id
-      const token = isAuthenticated().token 
+      const token = isAuthenticated().token
 
       update(postId, token, this.postData)
       .then(data => {
@@ -75,9 +76,9 @@ class EditPost extends Component {
           else {
             this.setState({loading: false, title: "", body: "", photo: "", redirectToProfile: true})
           }
-                         
+
       })
-    } 
+    }
   }
 
   editPostForm = (title, body) => (
@@ -93,7 +94,7 @@ class EditPost extends Component {
       <label className="text-muted">Title</label>
       <input onChange={this.handleChange("title")} type="text" className="form-control" value={title} />
     </div>
-    
+
     <div className="form-group">
       <label className="text-muted">Body</label>
       <textarea onChange={this.handleChange("body")} type="text" className="form-control" value={body} />
@@ -103,7 +104,7 @@ class EditPost extends Component {
   )
 
   render() {
-    const {title, body, redirectToProfile} = this.state
+    const {id, title, body, redirectToProfile} = this.state
 
     if(redirectToProfile) {
       return <Redirect to={`/user/${isAuthenticated().user._id}`} />
@@ -112,6 +113,14 @@ class EditPost extends Component {
     return (
       <div className="container">
         <h2 className="mt-5 mb-5"> {title}</h2>
+
+        <img style={{height: "200px", width: "auto"}}
+          className="ml-5 img-thumbnail"
+          src={`${process.env.REACT_APP_API_URL}/post/photo/${id}}`}
+          onError={i => (i.target.src = `${DefaultPost}`)}
+          alt={title}
+        />
+
         {this.editPostForm(title, body)}
       </div>
     )
