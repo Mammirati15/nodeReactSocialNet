@@ -4,6 +4,7 @@ import DefaultPost from "../images/hanauma.jpg"
 import {Link} from 'react-router-dom'
 import {isAuthenticated} from '../auth'
 import {Redirect} from 'react-router-dom'
+import Comment from './Comment'
 
 
 class SinglePost extends Component {
@@ -13,6 +14,7 @@ class SinglePost extends Component {
     redirectToSignin: false,
     like: false,
     likes: 0,
+    comments: []
 
   }
 
@@ -28,9 +30,18 @@ class SinglePost extends Component {
       if(data.error) {
         console.log(data.error)
       } else {
-        this.setState({post: data, likes: data.likes.length, like: this.checkLike(data.likes)})
+        this.setState({
+          post: data,
+          likes: data.likes.length,
+          like: this.checkLike(data.likes),
+          comments: data.comments
+        })
       }
     })
+  }
+
+  updateComments = comments => {
+    this.setState({comments})
   }
 
   likeToggle = () => {
@@ -131,7 +142,7 @@ class SinglePost extends Component {
 }
 
   render() {
-    const { post, redirectToHome, redirectToSignin } = this.state;
+    const { post, redirectToHome, redirectToSignin, comments } = this.state;
 
     if(redirectToHome){
       return <Redirect to={`/`} />
@@ -143,6 +154,7 @@ class SinglePost extends Component {
       <div className="container">
         <h2 className="display-2 mt-5 mb-5">{post.title}</h2>
         {!post ? <div className="jumbotron text-center"><h2>Loading...</h2></div> : this.renderPost(post)}
+        <Comment postId={post._id} comments={comments.reverse()} updateComments={this.updateComments} />
       </div>
     )
   }
