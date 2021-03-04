@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   hashed_password: {
-    type: String,    
+    type: String,
     required: true
   },
   salt: String,
@@ -34,7 +34,11 @@ const userSchema = new mongoose.Schema({
     trim: true
   },
   following: [{type: ObjectId, ref: "User"}],
-  followers: [{type: ObjectId, ref: "User"}]
+  followers: [{type: ObjectId, ref: "User"}],
+  role: {
+    type: String,
+    default: "subscriber"
+  }
 })
 
 //virtual field
@@ -66,10 +70,10 @@ userSchema.methods = {
     }
     catch(err){
       return ""
-    }  
-  }    
-}    
-  
+    }
+  }
+}
+
 
 
 module.exports = mongoose.model("User", userSchema)

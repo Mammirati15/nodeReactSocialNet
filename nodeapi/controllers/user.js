@@ -38,7 +38,7 @@ exports.allUsers  = (req, res) => {
       })
     }
     res.json(users)
-  }).select("name email updated created")
+  }).select("name email updated created role")
 }
 //fetches a single user
 exports.getUser = (req, res) => {
@@ -50,7 +50,7 @@ exports.getUser = (req, res) => {
 // exports.updateUser = (req, res, next) => {
 //   let user = req.profile
 //   //Changes the user object based on the request body using lodash extend
-//   user = _.extend(user, req.body) 
+//   user = _.extend(user, req.body)
 //   user.updated = Date.now()
 //   user.save((err) => {
 //     if(err) {
@@ -112,7 +112,7 @@ exports.deleteUser = (req, res) => {
         error: err
       })
     }
-    
+
     res.json({message: "User has been deleted successfully"})
   })
 }
@@ -125,7 +125,7 @@ exports.addFollowing = (req, res, next) => {
       return res.status(400).json({error: err})
     }
     next()
-  } 
+  }
   )
 }
 
@@ -152,7 +152,7 @@ exports.removeFollowing = (req, res, next) => {
       return res.status(400).json({error: err})
     }
     next()
-  } 
+  }
   )
 }
 

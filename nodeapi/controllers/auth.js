@@ -6,7 +6,7 @@ const User = require('../models/user')
 
 exports.signUp = async (req, res) => {
   const userExists = await User.findOne({ email: req.body.email })
-  if(userExists) 
+  if(userExists)
     return res.status(403).json({
       error: "Email already exists"
     })
@@ -20,7 +20,7 @@ exports.signUp = async (req, res) => {
     console.log(e)
     res.sendStatus(500)
   }
-  
+
 }
 
 exports.signin = (req, res) => {
@@ -41,14 +41,14 @@ exports.signin = (req, res) => {
       })
     }
     //generate a token with user id and secret JWT
-    const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET)
+    const token = jwt.sign({_id: user._id, role: user.role}, process.env.JWT_SECRET)
     // put the token in 't' in cookie
     res.cookie("t", token, {expire: new Date() + 9999})
 
     //return response to front end
-    const {_id, name, email} = user
-    return res.json({token, user: {_id, email, name}})
-  }) 
+    const {_id, name, email, role} = user
+    return res.json({token, user: {_id, email, name, role}})
+  })
 }
 
 exports.signout = (req, res) => {
@@ -59,7 +59,7 @@ exports.signout = (req, res) => {
 exports.requireSignin = expressJwt({
   // with a valid token, express jwt adds the verified id
   //in an auth key to the request object
-  secret : process.env.JWT_SECRET, 
+  secret : process.env.JWT_SECRET,
   userProperty: "auth",
   algorithms: ['HS256']
 })
